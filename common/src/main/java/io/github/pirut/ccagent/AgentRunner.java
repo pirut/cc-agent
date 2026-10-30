@@ -168,6 +168,13 @@ public final class AgentRunner {
         if (run != null) kill(run.process);
     }
 
+    /** Stop the chat turn running for a computer (it was broken, unloaded or shut down). */
+    public static void stopComputer(int computerId) {
+        for (var run : List.copyOf(RUNS.values())) {
+            if (run.computerId == computerId) stop(run.id);
+        }
+    }
+
     static void stopAll() {
         for (var id : List.copyOf(RUNS.keySet())) stop(id);
     }

@@ -31,12 +31,15 @@ public final class AgentApi implements ILuaAPI {
     public void shutdown() {
         Jobs.computerStopped(system.getID());
         try {
+            // Broken, unloaded, shut down or rebooted: nothing is left to show the agent's work.
+            AgentRunner.stopComputer(system.getID());
+            Relay.stopChats(system.getID());
             TuiSession.stopComputer(system.getID());
             Relay.stopTuis(system.getID());
             Questions.computerStopped(system.getID());
             if (CCAgent.tools() != null) CCAgent.tools().forgetAllowed(system.getID());
         } catch (RuntimeException e) {
-            CCAgent.LOG.warn("Couldn't stop computer #{}'s TUI", system.getID(), e);
+            CCAgent.LOG.warn("Couldn't stop computer #{}'s agents", system.getID(), e);
         }
     }
 

@@ -319,6 +319,16 @@ public final class Relay {
         return player.containerMenu instanceof ComputerMenu menu ? menu.getComputer() : null;
     }
 
+    /** Stop the relayed chat turns running for a computer (it was broken, unloaded or shut down). */
+    public static void stopChats(int computerId) {
+        for (var chat : List.copyOf(CHATS.values())) {
+            if (chat.computer.getID() == computerId) {
+                stopChat(chat.id);
+                CHATS.remove(chat.id);
+            }
+        }
+    }
+
     public static boolean isRelayChat(int id) {
         return CHATS.containsKey(id);
     }
